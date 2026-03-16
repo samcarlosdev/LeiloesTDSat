@@ -2,6 +2,7 @@ package br.com.senac.classes;
 
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class listagemVIEW extends javax.swing.JFrame {
@@ -118,15 +119,33 @@ public class listagemVIEW extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-        String id = id_produto_venda.getText();
-        
-        ProdutosDAO produtosdao = new ProdutosDAO();
-        
-        //produtosdao.venderProduto(Integer.parseInt(id));
-        listarProdutos();
+        try 
+        {
+            String idText = id_produto_venda.getText();
+
+            if (!idText.isEmpty()) 
+            {
+                int id = Integer.parseInt(idText);
+
+                ProdutosDAO produtosdao = new ProdutosDAO();
+                produtosdao.venderProduto(id);
+
+                listarProdutos();
+                id_produto_venda.setText("");
+            } 
+            else 
+            {
+                JOptionPane.showMessageDialog(null, "Informe um ID válido para vender.");
+            }
+        } 
+        catch (NumberFormatException e) 
+        {
+            JOptionPane.showMessageDialog(null, "Por favor, insira apenas números no campo ID.");
+        }
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
@@ -186,7 +205,7 @@ public class listagemVIEW extends javax.swing.JFrame {
     private javax.swing.JTable listaProdutos;
     // End of variables declaration//GEN-END:variables
 
-    private void listarProdutos(){
+    private void listarProdutos() {
         try {
             ProdutosDAO produtosdao = new ProdutosDAO();
             
@@ -205,6 +224,5 @@ public class listagemVIEW extends javax.swing.JFrame {
             }
         } catch (Exception e) {
         }
-    
     }
 }
